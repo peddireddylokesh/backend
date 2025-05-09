@@ -24,11 +24,11 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Install Dependencies') {
             steps {
                   
-                sh "echo 'This is Testing...'"
-                sh 'env'
+                sh "npm install"
+               
             } 
         }
         stage('Deploy') {
