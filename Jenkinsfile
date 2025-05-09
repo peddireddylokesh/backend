@@ -12,8 +12,7 @@ pipeline {
         appVersion = '1.0.0' // this will become global variable across the pipeline
 
     }
-    
-   
+     
     stages {                               
         stage('Read the Version') {
             steps {
@@ -25,10 +24,8 @@ pipeline {
             }
         }
         stage('Install Dependencies') {
-            steps {
-                  
-                sh "npm install"
-               
+            steps {                  
+                sh "npm install"              
             } 
         }
         stage('Deploy') {
@@ -41,15 +38,15 @@ pipeline {
                 // error "This is error in the Deploy stage"
             }
         }
-        stage('PrintParams') {
-            steps {
-                echo "Hello ${params.PERSON}"
-                echo "Biography: ${params.BIOGRAPHY}"
-                echo "Toggle: ${params.TOGGLE}"
-                echo "Choice: ${params.CHOICE}"
-                echo "Password: ${params.PASSWORD}"                
-            }
-        }
+        // stage('PrintParams') {
+        //     steps {
+        //         echo "Hello ${params.PERSON}"
+        //         echo "Biography: ${params.BIOGRAPHY}"
+        //         echo "Toggle: ${params.TOGGLE}"
+        //         echo "Choice: ${params.CHOICE}"
+        //         echo "Password: ${params.PASSWORD}"                
+        //     }
+        // }
         // stage('Approval') {
         //     input {
         //         message "Should we continue?"
