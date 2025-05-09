@@ -11,8 +11,8 @@ pipeline {
         DEBUG = true
         appVersion = '1.0.0' // this will become global variable across the pipeline
 
-       }
     }
+    
    
     stages {                               
         stage('Read the Version') {
