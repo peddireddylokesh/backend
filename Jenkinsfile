@@ -3,11 +3,12 @@ pipeline {
         label 'AGENT-1'
        
     }
+
     environment {
         PROJECT = 'expense'
         COMPONENT = 'backend'
         appVersion = ''
-        ACC_ID = credentials('897729141306')
+        ACC_ID = '897729141306'
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
@@ -26,7 +27,7 @@ pipeline {
                 script {
                     def packageJSON = readJSON file: 'package.json'
                     appVersion = packageJSON.version
-                    echo "Version: ${appVersion}"
+                    echo "Version: ${env.appVersion}"
                 }
             }
         }
@@ -55,9 +56,10 @@ pipeline {
 
     post {
         always {
-            echo 'This will always run'     
-            deleteDir()
-        }
+            node {
+                echo 'This will always run'
+                deleteDir() // Wrapped inside script to ensure proper node context
+            }
         success {
             echo 'This will run only if the pipeline is successful'
         }
