@@ -1,23 +1,24 @@
 pipeline {
     agent {
         label 'AGENT-1'
-        environment {
-            PROJECT = 'expense'
-            COMPONENT = 'backend'
-            appVersion = ''
-            ACC_ID = credentials('897729141306')
-        }
+       
+    }
+    environment {
+        PROJECT = 'expense'
+        COMPONENT = 'backend'
+        appVersion = ''
+        ACC_ID = credentials('897729141306')
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
         // retry(1)
     }
-    environment {
-        DEBUG = true
-        appVersion = '1.0.0' // this will become global variable across the pipeline
+    // environment {
+    //     DEBUG = true
+    //     appVersion = '1.0.0' // this will become global variable across the pipeline
 
-    }
+    // }
      
     stages {                               
         stage('Read the Version') {
