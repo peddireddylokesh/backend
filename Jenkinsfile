@@ -1,6 +1,12 @@
 pipeline {
     agent {
         label 'AGENT-1'
+        environment {
+            PROJECT = 'expense'
+            COMPONENT = 'backend'
+            appVersion = ''
+            ACC_ID = credentials('897729141306')
+        }
     }
     options {
         timeout(time: 30, unit: 'MINUTES')
@@ -31,13 +37,17 @@ pipeline {
         stage('Docker build') {
             
             steps {
+                withAWS(region: 'us-east-1', credentials: 'aws-credentials') {
                   sh """
-                    docker build -t peddireddylokesh/backend:${appVersion} .
-                    docker images
+                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com
+                    docker build -t ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion} .
+                    docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}/${COMPONENT}:${appVersion}
                   """
-              
+                    // docker build -t peddireddylokesh/backend:${appVersion} .
+                    // docker images  # these both lines need to put in """   above  """ im practing so i put it here
+                }
             }
-        }
+        }    
       
     }           
         
