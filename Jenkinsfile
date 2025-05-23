@@ -60,14 +60,15 @@ pipeline {
                 echo 'This will always run'
                 deleteDir() // Wrapped inside script to ensure proper node context
             }
-        success {
-            echo 'This will run only if the pipeline is successful'
-        }
-        failure {
-            echo 'This will run only if the pipeline fails'
-        }
-        unstable {
-            echo 'This will run only if the pipeline is unstable'
+            success {
+                echo 'This will run only if the pipeline is successful'
+            }
+            failure {
+                echo 'This will run only if the pipeline fails'
+            }
+            unstable {
+                echo 'This will run only if the pipeline is unstable'
+            }
         }
     }
 }
