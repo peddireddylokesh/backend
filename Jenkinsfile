@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         PROJECT = 'expense'
-        COMPONENT = 'frontend'
+        COMPONENT = 'backend'
         appVersion = ''
         region = 'us-east-1'
         environment = 'dev'
