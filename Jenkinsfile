@@ -17,7 +17,9 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
     }
-
+    parameters {
+        booleanparam(name: 'deploy', defaultValue: false, description: 'Enter the application version')
+    }
     stages {                               
         stage('Read the Version') {
             steps {
@@ -31,7 +33,12 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {                  
-                sh "npm install"              
+                script{
+                    sh  """
+
+                        npm install
+                    """
+                }             
             } 
         }
 
@@ -48,6 +55,14 @@ pipeline {
                         docker push ${ACC_ID}.dkr.ecr.us-east-1.amazonaws.com/${PROJECT}-${environment}-${COMPONENT}:${appVersion}
                     """
                 }
+            }
+        }
+        stage('Trigger Deploy') {
+            when {
+                expression { params.deploy }
+            }
+            steps {
+                build job: 'backend-cd', parameters: [string(name: 'version', value: "${appVersion}")],wait: true        
             }
         }    
     }           
