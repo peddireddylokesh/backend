@@ -42,6 +42,25 @@ pipeline {
             } 
         }
 
+        stage('Run Sonarqube') {
+            environment {
+                scannerHome = tool 'SonarQube Scanner 7.1.0.4889';
+            }
+            steps {
+              withSonarQubeEnv(credentials: 'sonar-auth-1') {
+                sh "${scannerHome}/bin/sonar-scanner"
+                // This is generic command works for any language
+              }
+            }
+        } 
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+        }
+
         stage('Docker build') {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-credentials') {
