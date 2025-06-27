@@ -44,10 +44,10 @@ pipeline {
 
         stage('Run Sonarqube') {
             environment {
-                scannerHome = tool 'SonarQube Scanner 7.1.0.4889';
+                scannerHome = tool 'SonarQube Scanner 7.1';
             }
             steps {
-              withSonarQubeEnv('SonarQube Scanner 7.1.0.4889') {
+              withSonarQubeEnv('SonarQube Scanner 7.1') {
                 sh "${scannerHome}/bin/sonar-scanner"
                 // This is generic command works for any language
               }
